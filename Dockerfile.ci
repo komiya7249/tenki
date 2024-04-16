@@ -1,18 +1,17 @@
 FROM ruby:3.2.0
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    nodejs \
-    yarn
-
 WORKDIR /myapp
 
+RUN apt-get update \
+  && apt-get install \
+    openssl \
+  && wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb \
+  && DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.22-1_all.deb \
+  && apt-get update --allow-insecure-repositories \
+  && apt-get clean
+
 COPY Gemfile Gemfile.lock ./
+
 RUN bundle install
 
-ENV RAILS_ENV=test
-
 COPY . .
-
-CMD ["bundle", "exec", "rspec"]
-CMD ["bundle", "exec", "rubocop"]
