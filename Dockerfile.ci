@@ -1,0 +1,18 @@
+FROM ruby:3.2.0
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    nodejs \
+    yarn
+
+WORKDIR /myapp
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+ENV RAILS_ENV=test
+
+COPY . .
+
+CMD ["bundle", "exec", "rspec"]
+CMD ["bundle", "exec", "rubocop"]
