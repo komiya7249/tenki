@@ -31,6 +31,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rubocop'
   gem 'rubocop-airbnb', require: false
+  gem 'rspec-rails'
 end
 
 group :development do
